@@ -71,4 +71,23 @@ public class StaticRateLimiterTests
         await limiter.SetRequestAsync();
         Assert.True(limiter.TotalRequestsSet == 1);
     }
+
+    [Theory]
+    [InlineData(400, 4)]
+    [InlineData(1200, 2)]
+    public async void
+        SetRequestAsync_WindowTimerResetsAtTheEndOfTheTimeWindow_TotalRequestsEqualsOneAfterDelayingWindowTime(
+            int windowMilliseconds, int totalCycles)
+    {
+        const int totalRequests = 1;
+        var timeWindow = TimeSpan.FromMilliseconds(windowMilliseconds);
+        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        for (var i = 0; i < totalCycles; i++)
+        {
+            await limiter.SetRequestAsync();
+            await Task.Delay(timeWindow);
+            await limiter.SetRequestAsync();
+            Assert.True(limiter.TotalRequestsSet == 1);
+        }
+    }
 }
