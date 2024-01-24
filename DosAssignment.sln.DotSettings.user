@@ -1,0 +1,10 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:s="clr-namespace:System;assembly=mscorlib"
+                        xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml"
+                        xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String
+            x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3759084f_002D86f4_002D4564_002D8d82_002D2b2ddcf2dee7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SetRequest_AllowsFiveRequestsInFiveSeconds_True" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::6791BADD-B7BF-4BF3-9995-5868373CAAD7::net7.0::DosAssignmentTests.RateLimitersTests.StaticRateLimiterTests.SetRequest_AllowsFiveRequestsInFiveSeconds_True&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
