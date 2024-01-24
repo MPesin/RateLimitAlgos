@@ -1,3 +1,5 @@
+using DosAssignment.RateLimiters.Exceptions;
+
 namespace DosAssignment.RateLimiters;
 
 public class StaticRateLimiter : IRateLimiter
@@ -15,7 +17,10 @@ public class StaticRateLimiter : IRateLimiter
 
     public Task SetRequestAsync()
     {
-        TotalRequestsSet++;
+        var nextValue = TotalRequestsSet + 1;
+        TotalRequestsSet = nextValue <= _totalRequests
+            ? nextValue
+            : throw new RequestLimitReachedException();
         return Task.CompletedTask;
     }
 }
