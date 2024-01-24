@@ -22,6 +22,7 @@ public class StaticRateLimiter : IRateLimiter, IDisposable
     {
         _resetEvent.WaitOne();
         TotalRequestsSet = 0;
+        _windowTimer.Stop();
         _resetEvent.Set();
     }
 
