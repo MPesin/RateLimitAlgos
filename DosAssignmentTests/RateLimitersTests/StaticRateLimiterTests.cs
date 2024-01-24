@@ -61,7 +61,7 @@ public class StaticRateLimiterTests
     [Theory]
     [InlineData(500)]
     [InlineData(1000)]
-    public async void SetRequestAsync_AddingOneRequestOverLimitAfterWindow_TotalRequestsEqualsOne(int windowMilliseconds)
+    public async void SetRequestAsync_AddingOneRequestAfterLimitTimeWindow_TotalRequestsEqualsOne(int windowMilliseconds)
     {
         const int totalRequests = 1;
         var timeWindow = TimeSpan.FromMilliseconds(windowMilliseconds);
