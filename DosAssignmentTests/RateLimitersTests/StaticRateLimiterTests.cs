@@ -27,10 +27,10 @@ public class StaticRateLimiterTests
                 await Task.Delay(500);
             }
         }
-        
+
         Assert.True(success);
     }
-    
+
     [Fact]
     public async void SetRequestAsync_IncrementTotalSetRequestsCount_CounterIncrements()
     {
@@ -42,16 +42,22 @@ public class StaticRateLimiterTests
         Assert.True(limiter.TotalRequestsSet - totalRequestsSetPreCall == 1);
     }
 
-    [Fact]
-    public async void SetRequestAsync_AddingRequestOverLimitFails_ThrowsRequestLimitReachedException()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(3)]
+    [InlineData(10)]
+    public async void SetRequestAsync_AddingRequestOverLimitFails_ThrowsRequestLimitReachedException(int totalRequests)
     {
-        const int totalRequests = 1;
         var timeWindow = TimeSpan.FromMilliseconds(5000);
         IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
-        await limiter.SetRequestAsync();
+        for (var i = 0; i < totalRequests; i++)
+        {
+            await limiter.SetRequestAsync();
+        }
+
         await Assert.ThrowsAsync<RequestLimitReachedException>(() => limiter.SetRequestAsync());
     }
-    
+
     [Fact]
     public async void SetRequestAsync_AddingOneRequestOverLimitAfterWindow_TotalRequestsEqualsOne()
     {
