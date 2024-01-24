@@ -51,4 +51,16 @@ public class StaticRateLimiterTests
         await limiter.SetRequestAsync();
         await Assert.ThrowsAsync<RequestLimitReachedException>(() => limiter.SetRequestAsync());
     }
+    
+    [Fact]
+    public async void SetRequestAsync_AddingOneRequestOverLimitAfterWindow_TotalRequestsEqualsOne()
+    {
+        const int totalRequests = 1;
+        var timeWindow = TimeSpan.FromMilliseconds(500);
+        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        await limiter.SetRequestAsync();
+        await Task.Delay(timeWindow);
+        await limiter.SetRequestAsync();
+        Assert.True(limiter.TotalRequestsSet == 1);
+    }
 }
