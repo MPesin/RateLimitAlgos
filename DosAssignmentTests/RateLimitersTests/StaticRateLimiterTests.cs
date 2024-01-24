@@ -10,7 +10,7 @@ public class StaticRateLimiterTests
     {
         const int totalRequests = 5;
         var timeWindow = TimeSpan.FromMilliseconds(5000);
-        var limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
         var success = true;
         for (var i = 0; i < totalRequests; i++)
         {
@@ -29,5 +29,16 @@ public class StaticRateLimiterTests
         }
         
         Assert.True(success);
+    }
+    
+    [Fact]
+    public async void SetRequest_IncrementTotalSetRequestsCount_CounterIncrements()
+    {
+        const int totalRequests = 5;
+        var timeWindow = TimeSpan.FromMilliseconds(5000);
+        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        var totalRequestsSet = limiter.TotalRequestsSet;
+        await limiter.SetRequestAsync();
+        Assert.True(totalRequestsSet - limiter.TotalRequestsSet == 1);
     }
 }
