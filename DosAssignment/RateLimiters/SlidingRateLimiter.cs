@@ -1,6 +1,6 @@
 namespace DosAssignment.RateLimiters;
 
-public class DynamicRateLimiter : IRateLimiter
+public class SlidingRateLimiter : IRateLimiter
 {
     public Task SetRequestAsync()
     {

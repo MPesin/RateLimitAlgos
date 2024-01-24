@@ -1,6 +1,6 @@
 namespace DosAssignmentTests.RateLimitersTests;
 
-public class DynamicRateLimiterTests
+public class SlidingRateLimiterTests
 {
-    [Fact]
+
 }
