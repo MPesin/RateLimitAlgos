@@ -1,4 +1,21 @@
-.idea
+**/.idea
+.vscode/*
 
-obj
-bin
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+*.suo
+*.user
+.vs/
+[Bb]in/
+[Oo]bj/
+[Pp]ackages/
+
+*.sln.iml
+
+project.lock.json
+project.fragment.lock.json
+artifacts/
