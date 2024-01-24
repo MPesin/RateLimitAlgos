@@ -4,11 +4,12 @@ using Timer = System.Timers.Timer;
 
 namespace DosAssignment.RateLimiters;
 
-public class StaticRateLimiter : IRateLimiter
+public class StaticRateLimiter : IRateLimiter, IDisposable
 {
     private readonly int _maxRequests;
     private readonly Timer _windowTimer;
     private readonly AutoResetEvent _resetEvent = new(true);
+    private bool _disposed;
 
     public StaticRateLimiter(int maxRequests, TimeSpan timeWindow)
     {
@@ -52,4 +53,30 @@ public class StaticRateLimiter : IRateLimiter
             _windowTimer.Start();
         }
     }
+
+    #region Dispose Pattern
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            _resetEvent.Dispose();
+            _windowTimer.Dispose();
+        }
+
+        _disposed = true;
+    }
+
+    #endregion
 }
