@@ -13,7 +13,7 @@ public class StaticRateLimiter : IRateLimiter
 
     public Task SetRequestAsync()
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public bool SetRequest()
