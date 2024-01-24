@@ -11,13 +11,11 @@ public class StaticRateLimiter : IRateLimiter
         _timeWindow = timeWindow;
     }
 
+    public int TotalRequestsSet { get; private set; }
+
     public Task SetRequestAsync()
     {
+        TotalRequestsSet++;
         return Task.CompletedTask;
-    }
-
-    public bool SetRequest()
-    {
-        throw new NotImplementedException();
     }
 }

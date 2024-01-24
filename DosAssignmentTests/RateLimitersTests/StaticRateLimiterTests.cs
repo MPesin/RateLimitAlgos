@@ -6,7 +6,7 @@ namespace DosAssignmentTests.RateLimitersTests;
 public class StaticRateLimiterTests
 {
     [Fact]
-    public async void SetRequest_AllowsFiveRequestsInFiveSeconds_True()
+    public async void SetRequestAsync_AllowsFiveRequestsInFiveSeconds_True()
     {
         const int totalRequests = 5;
         var timeWindow = TimeSpan.FromMilliseconds(5000);
@@ -32,13 +32,13 @@ public class StaticRateLimiterTests
     }
     
     [Fact]
-    public async void SetRequest_IncrementTotalSetRequestsCount_CounterIncrements()
+    public async void SetRequestAsync_IncrementTotalSetRequestsCount_CounterIncrements()
     {
-        const int totalRequests = 5;
+        const int totalRequests = 1;
         var timeWindow = TimeSpan.FromMilliseconds(5000);
         IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
-        var totalRequestsSet = limiter.TotalRequestsSet;
+        var totalRequestsSetPreCall = limiter.TotalRequestsSet;
         await limiter.SetRequestAsync();
-        Assert.True(totalRequestsSet - limiter.TotalRequestsSet == 1);
+        Assert.True(limiter.TotalRequestsSet - totalRequestsSetPreCall == 1);
     }
 }
