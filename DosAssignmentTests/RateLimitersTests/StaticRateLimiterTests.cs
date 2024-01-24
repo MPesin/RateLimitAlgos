@@ -46,7 +46,7 @@ public class StaticRateLimiterTests
     [InlineData(1)]
     [InlineData(3)]
     [InlineData(10)]
-    public async void SetRequestAsync_AddingRequestOverLimitFails_ThrowsRequestLimitReachedException(int totalRequests)
+    public async void SetRequestAsync_AddingRequestOverLimitInTimeWindow_ThrowsRequestLimitReachedException(int totalRequests)
     {
         var timeWindow = TimeSpan.FromMilliseconds(5000);
         IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
