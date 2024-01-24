@@ -10,7 +10,7 @@ public class StaticRateLimiterTests
     {
         const int totalRequests = 5;
         var timeWindow = TimeSpan.FromMilliseconds(5000);
-        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        using var limiter = new StaticRateLimiter(totalRequests, timeWindow);
         var success = true;
         for (var i = 0; i < totalRequests; i++)
         {
@@ -36,7 +36,7 @@ public class StaticRateLimiterTests
     {
         const int totalRequests = 1;
         var timeWindow = TimeSpan.FromMilliseconds(5000);
-        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        using var limiter = new StaticRateLimiter(totalRequests, timeWindow);
         var totalRequestsSetPreCall = limiter.TotalRequestsSet;
         await limiter.SetRequestAsync();
         Assert.True(limiter.TotalRequestsSet - totalRequestsSetPreCall == 1);
@@ -46,10 +46,11 @@ public class StaticRateLimiterTests
     [InlineData(1)]
     [InlineData(3)]
     [InlineData(10)]
-    public async void SetRequestAsync_AddingRequestOverLimitInTimeWindow_ThrowsRequestLimitReachedException(int totalRequests)
+    public async void SetRequestAsync_AddingRequestOverLimitInTimeWindow_ThrowsRequestLimitReachedException(
+        int totalRequests)
     {
         var timeWindow = TimeSpan.FromMilliseconds(5000);
-        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        using var limiter = new StaticRateLimiter(totalRequests, timeWindow);
         for (var i = 0; i < totalRequests; i++)
         {
             await limiter.SetRequestAsync();
@@ -61,11 +62,12 @@ public class StaticRateLimiterTests
     [Theory]
     [InlineData(500)]
     [InlineData(1000)]
-    public async void SetRequestAsync_AddingOneRequestAfterLimitTimeWindow_TotalRequestsEqualsOne(int windowMilliseconds)
+    public async void SetRequestAsync_AddingOneRequestAfterLimitTimeWindow_TotalRequestsEqualsOne(
+        int windowMilliseconds)
     {
         const int totalRequests = 1;
         var timeWindow = TimeSpan.FromMilliseconds(windowMilliseconds);
-        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        using var limiter = new StaticRateLimiter(totalRequests, timeWindow);
         await limiter.SetRequestAsync();
         await Task.Delay(timeWindow);
         await limiter.SetRequestAsync();
@@ -81,13 +83,23 @@ public class StaticRateLimiterTests
     {
         const int totalRequests = 1;
         var timeWindow = TimeSpan.FromMilliseconds(windowMilliseconds);
-        IRateLimiter limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        using var limiter = new StaticRateLimiter(totalRequests, timeWindow);
+        await limiter.SetRequestAsync();
+        var successCounter = 0;
         for (var i = 0; i < totalCycles; i++)
         {
-            await limiter.SetRequestAsync();
-            await Task.Delay(timeWindow);
-            await limiter.SetRequestAsync();
-            Assert.True(limiter.TotalRequestsSet == 1);
+            try
+            {
+                await Task.Delay(timeWindow);
+                await limiter.SetRequestAsync();
+                successCounter = limiter.TotalRequestsSet == 1 ? successCounter + 1 : successCounter;
+            }
+            catch (RequestLimitReachedException)
+            {
+                break;
+            }
         }
+
+        Assert.Equal(totalCycles, successCounter);
     }
 }
