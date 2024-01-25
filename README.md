@@ -18,3 +18,5 @@ I used ___TDD___ when developing this answer, so each test represents a differen
 __Email__: mikelpesin@gmail.com
 
 __Mobile__: 054-4929277
+
+[Linkedin](https://www.linkedin.com/in/michaelpesin87/)
