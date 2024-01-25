@@ -5,8 +5,8 @@ This is an ASP.Net (`C#`) project that implements two simple rate limiters for r
 
 ## Routing
 As required by the assignment, there are two endpoints the the service listens to:
-1. For the ___static___ limiter: `http://localhost:8080/StaticWindow?clientId=[id]`
-1. For the ___dynamic___ limiter: `http://localhost:8080/DynamicWindow?clientId=[id]`
+1. For the ___static___ limiter: `GET http://localhost:8080/StaticWindow?clientId=[id]`
+1. For the ___dynamic___ limiter: `GET http://localhost:8080/DynamicWindow?clientId=[id]`
 
 ## Testing
 
