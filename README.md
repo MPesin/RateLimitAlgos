@@ -8,6 +8,7 @@ As required by the assignment, there are two endpoints the the service listens t
 1. For the ___static___ limiter: `GET http://localhost:8080/StaticWindow?clientId=[id]`
 1. For the ___dynamic___ limiter: `GET http://localhost:8080/DynamicWindow?clientId=[id]`
 
+__IMPORTANT!__ the `[id]` has to be an `integer`.
 ## Testing
 
 The `Tests` project contain test for the ___static___ algorithm. 
