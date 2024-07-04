@@ -1,4 +1,4 @@
-# DoS Home Assignment 
+# Rate Limiting Algorithm Against DoS Attackes Implementation
 This is an ASP.Net (`C#`) project that implements two simple rate limiters for requests:
 1. A ___static___ rate limiter based on a simple Fixed Window algorithm.
 1. A ___dynamic___ rate limiter based on a Sliding Window Log algorithm.
@@ -17,7 +17,5 @@ I used ___TDD___ when developing this answer, so each test represents a differen
 ## Personal Info
 
 __Email__: mikelpesin@gmail.com
-
-__Mobile__: 054-4929277
 
 [Linkedin](https://www.linkedin.com/in/michaelpesin87/)
